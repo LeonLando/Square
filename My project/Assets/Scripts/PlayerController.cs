@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool LevelEnded = false;
     private bool _mouseDown = false;
     [SerializeField] private Transform _centrPoint;
     private void OnMouseDown()
@@ -14,26 +15,32 @@ public class PlayerController : MonoBehaviour
     {
         _mouseDown = false;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Circle"))
         {
             GlobalPoints.Points += 1;
+            Destroy(collision.gameObject);
+
         }
+
     }
     private void Update()
     {
-        Vector2 _cursor = Input.mousePosition;
-        _cursor = Camera.main.ScreenToWorldPoint(_cursor);
-
-        float dist = Vector2.Distance(_centrPoint.position, this.transform.position);
-
-        if (_mouseDown)
+        if (!LevelEnded)
         {
-            this.transform.position = _cursor;
-        }
-        else
-        {
+            Vector2 _cursor = Input.mousePosition;
+            _cursor = Camera.main.ScreenToWorldPoint(_cursor);
+
+
+            if (_mouseDown)
+            {
+                this.transform.position = _cursor;
+            }
+            else
+            {
+
+            }
 
         }
     }
